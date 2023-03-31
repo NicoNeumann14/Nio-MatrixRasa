@@ -92,7 +92,8 @@ class Command:
         text= ""
         #s = f"Hallo, Unknown command '{self.command}'++ HalloÄnderung Hier'{self.room}'. Try the 'help' command for more information.",
         url = 'http://chatbotrasa-rasa-server-1:5005/webhooks/rest/webhook'
-        rID = self.room.room_id[:-25]
+        #entfernt das voranstehende ! und die bezeichnung unseres matrix servers
+        rID = self.room.room_id[1:-25]
  
         #Call an RasaCore
         body = {"sender":rID,"message":self.command}
