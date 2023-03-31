@@ -92,10 +92,10 @@ class Command:
         text= ""
         #s = f"Hallo, Unknown command '{self.command}'++ HalloÄnderung Hier'{self.room}'. Try the 'help' command for more information.",
         url = 'http://chatbotrasa-rasa-server-1:5005/webhooks/rest/webhook'
-
+        rID = self.room.room_id[:-25]
  
         #Call an RasaCore
-        body = {"sender":"senderBOT","message":self.command}
+        body = {"sender":rID,"message":self.command}
         response = requests.post(url,json=body)
 
         #linkResponseNew = linkResponse.replace("\\","")
@@ -104,9 +104,9 @@ class Command:
         responseList = response.json()
         for resp in responseList:
             if "text" in resp:
-                text += resp["text"] 
+                text += resp["text"] + " "
             if "image" in resp:
-                text += " "+resp["image"] 
+                text += resp["image"] + " " 
 
 
         await send_text_to_room(
