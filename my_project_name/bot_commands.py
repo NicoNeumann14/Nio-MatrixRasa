@@ -89,12 +89,21 @@ class Command:
         await send_text_to_room(self.client, self.room.room_id, text)
 
     async def _unknown_command(self):
+        
         text= ""
         #s = f"Hallo, Unknown command '{self.command}'++ HalloÄnderung Hier'{self.room}'. Try the 'help' command for more information.",
         url = 'http://chatbotrasa-rasa-server-1:5005/webhooks/rest/webhook'
+        
         #entfernt das voranstehende ! und die bezeichnung unseres matrix servers
         rID = self.room.room_id[1:-25]
+    
+        # Dict mit den Users vom dem Room abgreifen für den Usernamen
+        usersDict = self.room.users
+        userText = " "
+        for keys in usersDict.keys():
+            userText += keys +", "
  
+        
         #Call an RasaCore
         body = {"sender":rID,"message":self.command}
         response = requests.post(url,json=body)
@@ -109,6 +118,7 @@ class Command:
             if "image" in resp:
                 text += resp["image"] + " " 
 
+        #text += " --Users im Room-- :" + userText
 
         await send_text_to_room(
             self.client,
